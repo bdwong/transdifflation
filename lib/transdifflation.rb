@@ -70,6 +70,11 @@ module Transdifflation
       from_locale ||= I18n.default_locale
       to_locale ||= I18n.locale
 
+      if !File.exists? path_to_yaml_relative_from_rails_root
+        puts "Target file '#{path_to_yaml_relative_from_rails_root}' does not exist!! ************** Skipping **************"
+        return false
+      end
+
       yml_source_content = YAMLReader.read_YAML_from_pathfile(path_to_yaml_relative_from_rails_root)
       puts "Loaded YAML content from file '#{path_to_yaml_relative_from_rails_root}'"
 
@@ -294,7 +299,7 @@ module Transdifflation
           target[source_key_translated] = Hash.new if(!target.has_key? (source_key_translated))  #to continue trace, otherwise, node will not exist in next iteration
           generate_added_diff(source_value, target[source_key_translated], added_diff_hash, key_trace, from_locale, to_locale, add_NOT_TRANSLATED) #recursively call
         else #it's a leaf node
-
+          target = {old_key: target} if !target.is_a? Hash
           if !target.has_key? (source_key_translated)
             added_diff_hash_positioned = added_diff_hash #pointer to added_diff_hash
             key_trace.each do |key|  #add the keys if necessary on the accurate level
