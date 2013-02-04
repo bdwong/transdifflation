@@ -80,9 +80,7 @@ module Transdifflation
 
       #build the file name in our host
       filename_in_SRC = File.basename(path_to_yaml_relative_from_rails_root )
-      host_target_filename = filename_in_SRC.gsub(/-?#{from_locale}\./) do |match_s|
-        match_s.sub("#{from_locale}", "#{to_locale}")
-      end
+      host_target_filename = filename_in_SRC.gsub(/-?#{from_locale}\./) { |match_s| match_s.sub("#{from_locale}", "#{to_locale}")}
 
       #The folder is created if doesn't exist
       if !File.directory?("config/locales/#{to_locale}")
@@ -252,7 +250,7 @@ module Transdifflation
       if( added_diff_hash.length > 0 || removed_diff_hash.length > 0 )
         diff_file = File.join(File.dirname(host_target_file), "#{File.basename(host_target_file)}.diff")
         diff_file_stream = File.new(diff_file, "w+:UTF-8")
-        begin           
+        begin
           if (added_diff_hash.length > 0)
             diff_file_stream.write("ADDED KEYS (Keys not found in your file, founded in source file) ********************\n")
             diff_file_stream.write(YAMLWriter.to_yaml(added_diff_hash))  #we can't use YAML#dump due to issues wuth Utf8 chars
