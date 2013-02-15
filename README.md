@@ -1,4 +1,4 @@
-# Transdifflation [![travis-ci](https://secure.travis-ci.org/Sage/transdifflation.png)](http://travis-ci.org/#!/Sage/transdifflation) [![Dependency Status](https://gemnasium.com/Sage/transdifflation.png)](https://gemnasium.com/Sage/transdifflation) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Sage/transdifflation)
+# Transdifflation [![travis-ci](https://secure.travis-ci.org/Sage/transdifflation.png)](http://travis-ci.org/#!/Sage/transdifflation) [![Dependency Status](https://gemnasium.com/Sage/transdifflation.png)](https://gemnasium.com/Sage/transdifflation) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Sage/transdifflation) [![Gem Version](https://badge.fury.io/rb/transdifflation.png)](http://badge.fury.io/rb/transdifflation)
 
 What is Transdifflation? Transdifflation is a portmanteau of 'Translation' and 'Diff'.  It helps you to manage the translation of Rails i18n strings that appear in your application and the Ruby Gems it includes.
 
