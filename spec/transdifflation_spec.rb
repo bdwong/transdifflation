@@ -177,6 +177,34 @@ describe :comparer_common_methods do
     ::Rails.stub(:root).and_return('/rails')
   end
 
+  context 'when option :add_not_translated_token is false' do
+    before(:each) do
+      @options = {:add_not_translated_token => false}
+      @comparer = Transdifflation::Comparer.new(@options)
+    end
+
+    it 'should generate first time file without adding untranslated token to string' do
+      #We actually don't care about basename, and we want to generate a testfile in our tests
+      File.stub(:basename).and_return('config/locales/en/gem_name.en.yml')
+
+      #File? Should return false, to simulate that the file is not created
+      File.stub(:file?).and_return(false)
+
+      #now we must stub File.open, write and close in order to avoid fails on get_first_time_file
+      mock_file = double("File")
+      mock_file.stub(:write).and_return(nil)
+      mock_file.stub(:close).and_return(nil)
+      File.stub(:open).and_return(mock_file)
+      File.stub(:directory?).and_return(true)
+
+      Transdifflation::YAMLWriter.stub(:to_yaml) do |output|
+        output.should == {:es => {:home => "hogar"}}
+      end
+
+      expect {@comparer.get_transdifflation_from_gem(@gem_name, @path_to_yaml_in_gem, @from_locale, @to_locale) }.to_not raise_error
+    end
+  end
+
   it 'should generate first timefile if the files does not exist' do
 
     #We actually don't care about basename, and we want to generate a testfile in our tests
@@ -191,6 +219,10 @@ describe :comparer_common_methods do
     mock_file.stub(:close).and_return(nil)
     File.stub(:open).and_return(mock_file)
     File.stub(:directory?).and_return(true)
+
+    Transdifflation::YAMLWriter.stub(:to_yaml) do |output|
+      output.should == {:es => {:home => "**NOT_TRANSLATED** hogar"}}
+    end
 
     expect {@comparer.get_transdifflation_from_gem(@gem_name, @path_to_yaml_in_gem, @from_locale, @to_locale) }.to_not raise_error
   end

@@ -17,8 +17,10 @@ module Transdifflation
     #Instance variable to get if changes have been detected
     attr_reader :has_changes
 
-    def initialize
+    def initialize(options = {})
       @has_changes = false
+      @add_not_translated_token = options[:add_not_translated_token]
+      @add_not_translated_token = true if @add_not_translated_token.nil?
     end
 
     # Get Diff from YAML translation locale file from a gem and generate differences in a file on our host
@@ -38,7 +40,7 @@ module Transdifflation
       puts "Loaded YAML content from gem '#{gem_name}', file '#{path_to_yaml_in_gem}'"
 
       #build the file name in our host
-      filename_in_gem_SRC = File.basename( path_to_yaml_in_gem )      
+      filename_in_gem_SRC = File.basename( path_to_yaml_in_gem )
       host_target_filename = filename_in_gem_SRC.gsub(/-?#{from_locale}\./) do |match_s|
         match_s.sub("#{from_locale}", "#{to_locale}")
       end
@@ -187,7 +189,7 @@ module Transdifflation
       begin
         translated_yaml = {}
         #translate from source yaml content, to target existant yml
-        translate_keys_in_same_yaml(yml_source_content, translated_yaml, from_locale, to_locale)
+        translate_keys_in_same_yaml(yml_source_content, translated_yaml, from_locale, to_locale, @add_not_translated_token)
 
         host_target_file_stream.write(YAMLWriter.to_yaml(translated_yaml))
         @has_changes = true

@@ -59,7 +59,7 @@ module Transdifflation
               desc task_desc
               task task_name do
                 puts "\nExecuting #{task_name} ************************** "
-                comparer = Transdifflation::Comparer.new
+                comparer = Transdifflation::Comparer.new(tasks_config[:options])
                 comparer.get_transdifflation_from_gem(params[:gem_name], params[:path_in_gem], params[:from_locale],  params[:to_locale])
               end
             end
@@ -70,7 +70,7 @@ module Transdifflation
               desc task_desc
               task task_name do
                 puts "\nExecuting #{task_name} ************************** "
-                comparer = Transdifflation::Comparer.new
+                comparer = Transdifflation::Comparer.new(tasks_config[:options])
                 comparer.get_transdifflation_from_file(params[:tag_name], params[:file_path_from_rails_root], params[:from_locale],  params[:to_locale])
               end
             end

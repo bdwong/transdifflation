@@ -7,7 +7,7 @@ Then you can merge it. It is designed to detect changes between versions. For no
 
 Also, it has three new rake tasks to provide information to you about missing translations between two locales, and continuous integration support.
 
-It never changes your source files (unless they don't yet exist, in which case they are created for you). 
+It never changes your source files (unless they don't yet exist, in which case they are created for you).
 
 ## Installation
 
@@ -52,7 +52,7 @@ tasks:
     }
   }
 grouped_tasks:
-  task_group_name: 
+  task_group_name:
     - task_name1
     - task_name2
 
@@ -60,6 +60,8 @@ ignore_paths:
   - /path_one
   - gem_path
 
+options:
+  add_not_translated_token: false
 ```
 
 These nodes generates rake tasks. There are two types of tasks:
@@ -68,7 +70,7 @@ These nodes generates rake tasks. There are two types of tasks:
 
 *   type **file**: When it rans, it looks for the file in 'file_path_from_rails_root' is installed. It uses from_locale and to_locale to translate names and keys inside yaml. Tag_name is used to name target file in our host.
 
-Also, you can create grouped tasks in a node called 'grouped_taks'. Task ```transdifflation:all``` is automatically generated.  
+Also, you can create grouped tasks in a node called 'grouped_taks'. Task ```transdifflation:all``` is automatically generated.
 
 Execute ```rake -T``` to determine sucess of config file. Your tasks should appear there, under namespace ```transdifflation:``
 
@@ -93,10 +95,11 @@ you don't what to check
 
 ```rake transdifflation:coverage[from_locale,to_locale]``` gives you
 information and statistics of translations. You can configure
-ignore_paths too. 
+ignore_paths too.
 
+### Options
 
-
+*   add_not_translated_token (default: true) - when set to false, transdifflation does not add ```**NOT_TRANSLATED**``` token to the strings that require translation.
 
 ## Contributing
 
