@@ -49,6 +49,16 @@ describe :YAMLReader do
 
       expect {Transdifflation::YAMLReader.read_YAML_from_gem(a_gem, a_path)}.to_not raise_error
     end
+
+    it 'should read correct gem path when given noisy output from bundle show #{gem_name}' do
+      Object.stub(:`).and_return("Noisy multiline output\n/path/to/gem")
+      a_gem = 'one_random_gem'
+      a_path = 'random.yml'
+      File.should_receive(:file?).with('/path/to/gem/random.yml').and_return(true)
+      YAML.stub(:load_file).and_return(false)
+
+      expect {Transdifflation::YAMLReader.read_YAML_from_gem(a_gem, a_path)}.to_not raise_error
+    end
   end
 
   describe :read_YAML_from_pathfile do
